@@ -12,15 +12,25 @@ class Gallon:
         return self.__str__()
 
 
-    def remplir(self, nombre):
-        if nombre<=self.taille_restante:
-            self.remplissage+=nombre
-            self.taille_restante-=nombre
+    def remplir(self, quantite_eau):
+        if quantite_eau<=self.taille_restante:
+            self.remplissage+=quantite_eau
+            self.taille_restante-=quantite_eau
         else:
             self.remplissage=self.taille
-            self.taille_restante-=nombre
-           print("Attention, le gallon ", str(self.numero), " est déjà plein ")
-        
+            self.taille_restante-=quantite_eau
+            print("Attention, le gallon ", str(self.numero), " est déjà plein ")
+
+    def vider(self, quantite_eau):
+        if quantite_eau>self.taille_restante:
+            print("Le gallon ", str(self.numero), " est désormais vide")
+            self.remplissage=0
+            self.taille_restante=self.taille
+        else:
+            self.remplissage-=quantite_eau
+            self.taille_restante+=quantite_eau
+            print("Attention, le gallon ", str(self.numero), " est déjà plein ")
+
 
 class Liste_Gallon:
     def __init__(self):
@@ -33,3 +43,7 @@ class Liste_Gallon:
 
     def append(self, gallon):
         self.gallons.append(gallon)
+
+    def transfert(self, gallon_1, gallon_2, quantite_eau):
+        gallon_1.remplir(quantite_eau)
+        gallon_2.enlever(quantite_eau)
