@@ -21,7 +21,7 @@ class Gallon:
             self.taille_restante-=quantite_eau
             print("Attention, le gallon ", str(self.numero), " est déjà plein ")
 
-    def vider(self, quantite_eau):
+    def enlever(self, quantite_eau):
         if quantite_eau>self.taille_restante:
             print("Le gallon ", str(self.numero), " est désormais vide")
             self.remplissage=0

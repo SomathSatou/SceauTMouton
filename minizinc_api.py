@@ -1,4 +1,5 @@
 import minizinc
+import class_gallons
 
 # Create a MiniZinc model
 model = minizinc.Model()
@@ -22,6 +23,17 @@ result = inst.solve(all_solutions=True)
 for i in range(len(result)):
     print("x = {}".format(result[i, "x"]))
 
+g1 = class_gallons.Gallon(1,3)
+g2 = class_gallons.Gallon(2,5)
 
+list_gallon = class_gallons.Liste_Gallon()
+
+list_gallon.append(g1)
+list_gallon.append(g2)
+
+print(list_gallon)
+
+list_gallon.transfert(g1, g2, 1)
+print(list_gallon)
 
 
