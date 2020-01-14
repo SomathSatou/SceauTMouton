@@ -26,14 +26,19 @@ for i in range(len(result)):
 g1 = class_gallons.Gallon(1,3)
 g2 = class_gallons.Gallon(2,5)
 
-list_gallon = class_gallons.Liste_Gallon()
+
+list_gallon = []
+
+
 
 list_gallon.append(g1)
 list_gallon.append(g2)
 
 print(list_gallon)
 
-list_gallon.transfert(g1, g2, 1)
-print(list_gallon)
+model = class_gallons.Modelisation_Gallon(6,3,list_gallon)
+print(model)
+model.transfert(g1, g2)
+print(model)
 
 
