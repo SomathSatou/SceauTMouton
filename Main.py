@@ -1,8 +1,3 @@
-import tkinter
+import Mainwindow
 
-def mainwindow():
-    
-    return
-
-
-mainwindow()
+Mainwindow.mainwindow()
