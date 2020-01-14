@@ -9,6 +9,7 @@ constraint a*(x*x) + b*x = c;
 solve satisfy;
 """)
 
+
 # Transform Model into a instance
 gecode = minizinc.Solver.lookup("gecode")
 inst = minizinc.Instance(gecode, model)
@@ -20,3 +21,7 @@ inst["c"] = 0
 result = inst.solve(all_solutions=True)
 for i in range(len(result)):
     print("x = {}".format(result[i, "x"]))
+
+
+
+
