@@ -2,14 +2,16 @@
 import copy
 import minizinc as mnz
 class Gallon:
-    def __init__(self,numero, taille):
+    def __init__(self,numero, taille, remplissage_inital):
+        if remplissage_inital> taille:
+            print("ATTENTION, REMPLISSAGE INITIAL > TAILLE !")
         self.taille = taille
-        self.remplissage = 0
+        self.remplissage = remplissage_inital
         self.numero = numero
-        self.taille_restante = taille
+        self.taille_restante = taille-remplissage_inital
 
     def __str__(self):
-        return "Gallon " + str(self.numero) + " taille " + str(self.taille) + " rempli a "+ str(self.remplissage)
+        return "\tGallon " + str(self.numero) + " taille " + str(self.taille) + " rempli a "+ str(self.remplissage)+"\n"
 
     def __repr__(self):
         return self.__str__()
@@ -41,7 +43,7 @@ class Gallon:
 
 
 class Modelisation_Gallon:
-    def __init__(self, quantite_initiale, quantite_objectif, liste_gallons):
+    def __init__(self, quantite_objectif, liste_gallons):
 
         # Create a MiniZinc model
         self.model = mnz.Model()
@@ -52,25 +54,29 @@ class Modelisation_Gallon:
         self.inst = mnz.Instance(gecode, self.model)
 
         self.gallons = liste_gallons
-        self.quantite_initiale = quantite_initiale
         self.quantite_objectif = quantite_objectif
 
-
-        quantite_initiale_copy = copy.deepcopy(quantite_initiale)
-        while quantite_initiale_copy >0:
-            for g in self.gallons:
-                if g.taille_restante>=1 and quantite_initiale_copy>0:
-                    g.remplir(1)
-                    quantite_initiale_copy-=1
-
-        if quantite_initiale_copy>0:
-            print("Impossible de remplir tout les gallons avec de l'eau. Veuillez augmenter la taille des gallons ou mettre moins d'eau")
 
 
         self.inst["nbr_sceau"] = len(liste_gallons)
         self.inst["remplissage_final"] = quantite_objectif
-        self.inst["taille_sceau"] = { x.taille for x in liste_gallons}
-        self.inst["remplissage_initial"] = {x.remplissage for x in liste_gallons}
+
+        list_taille_sceau = []
+        list_remplissage_init = []
+        for g in self.gallons:
+            list_taille_sceau.append(g.taille)
+            list_remplissage_init.append(g.remplissage)
+
+        self.inst["taille_sceau"] = list_taille_sceau
+        self.inst["remplissage_initial"] = list_remplissage_init
+
+
+        print("CONFIGURATION d'ORIGINE:")
+        print("\tnombre sceaux : ", self.inst["nbr_sceau"])
+        print("\tremplissage_final : ", self.inst["remplissage_final"])
+        print("\ttaille_sceau : ", self.inst["taille_sceau"])
+        print("\tremplissage_initial : ", self.inst["remplissage_initial"])
+
 
     def __str__(self):
         return str(self.gallons)
@@ -108,7 +114,25 @@ class Modelisation_Gallon:
     def solve(self):
         # Solve the instance
         result = self.inst.solve(all_solutions=False)
-        for i in range(len(result)):
-            print(result["remplissage"])
-            print(result["unsolved_step"])
+        if len(result)==0:
+            print("PAS DE SOLUTION")
+            return False
+        else:
+            for i in range(len(result)):
+                #print(result["remplissage"])
+                #print(result["unsolved_step"])
+
+                index = 0
+                while result["unsolved_step"][index]==1:
+                    index+=1
+
+                gallon_number=0
+                for g in self.gallons:
+                    g.remplissage = result["remplissage"][index][gallon_number]
+                    gallon_number+=1
+
+                print("\nSOLUTION : ")
+                print(self.gallons)
+                return True
+
 
