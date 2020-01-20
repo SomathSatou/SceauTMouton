@@ -3,7 +3,7 @@ include "globals.mzn";
 int: nbr_sceau;
 array[1..nbr_sceau] of 1..100: taille_sceau;
 int: remplissage_final;
-array[1..nbr_sceau] of 0..1: remplissage_initial;
+array[1..nbr_sceau] of 0..100: remplissage_initial;
 
 int: max_step = 6;
 enum action = {rien,verser,recevoir};
@@ -13,9 +13,9 @@ array[1..max_step,1..nbr_sceau] of var action: actions;
 array[1..max_step] of var 1..nbr_sceau: sceau_verseur;
 array[1..max_step] of var 1..nbr_sceau: sceau_receveur;
 
-%Tout les sceaux commencent vide ou plein
+%Tout les sceaux commencent dans leur état de départ
 constraint forall(s in 1..nbr_sceau)(
-  remplissage[1,s]=taille_sceau[s]*remplissage_initial[s]
+  remplissage[1,s]=remplissage_initial[s]
 );
 
 %Tout les sceaux doivent finir dans leur état final
