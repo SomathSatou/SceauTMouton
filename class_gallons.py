@@ -1,5 +1,6 @@
+# coding=utf-8
 import copy
-
+import minizinc as mnz
 class Gallon:
     def __init__(self,numero, taille):
         self.taille = taille
@@ -41,9 +42,19 @@ class Gallon:
 
 class Modelisation_Gallon:
     def __init__(self, quantite_initiale, quantite_objectif, liste_gallons):
+
+        # Create a MiniZinc model
+        self.model = mnz.Model()
+        self.model.add_file("ProjSceau.mzn")
+
+        # Transform Model into a instance
+        gecode = mnz.Solver.lookup("gecode")
+        self.inst = mnz.Instance(gecode, self.model)
+
         self.gallons = liste_gallons
         self.quantite_initiale = quantite_initiale
         self.quantite_objectif = quantite_objectif
+
 
         quantite_initiale_copy = copy.deepcopy(quantite_initiale)
         while quantite_initiale_copy >0:
@@ -54,6 +65,12 @@ class Modelisation_Gallon:
 
         if quantite_initiale_copy>0:
             print("Impossible de remplir tout les gallons avec de l'eau. Veuillez augmenter la taille des gallons ou mettre moins d'eau")
+
+
+        self.inst["nbr_sceau"] = len(liste_gallons)
+        self.inst["remplissage_final"] = quantite_objectif
+        self.inst["taille_sceau"] = { x.taille for x in liste_gallons}
+        self.inst["remplissage_initial"] = {x.remplissage for x in liste_gallons}
 
     def __str__(self):
         return str(self.gallons)
@@ -86,4 +103,12 @@ class Modelisation_Gallon:
             if g.remplissage == self.quantite_objectif:
                 return True
         return False
+
+
+    def solve(self):
+        # Solve the instance
+        result = self.inst.solve(all_solutions=False)
+        for i in range(len(result)):
+            print(result["remplissage"])
+            print(result["unsolved_step"])
 
