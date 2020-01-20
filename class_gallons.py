@@ -85,6 +85,5 @@ class Modelisation_Gallon:
         for g in self.gallons:
             if g.remplissage == self.quantite_objectif:
                 return True
-            else:
-                return False
+        return False
 
