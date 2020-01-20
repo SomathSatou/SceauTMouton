@@ -1,13 +1,14 @@
 from functools import partial
 from tkinter import *
 
-import Sceau
+import Seau
 import Mouton
 
 
 def mainwindow():
     fenetre = Tk()
-    fenetre.title('SceauTMouton')
+
+    fenetre.title('SeauTMouton')
     fenetre.geometry('700x350')
     center(fenetre)
 
@@ -16,11 +17,11 @@ def mainwindow():
     fenetre.rowconfigure(2, weight=1)
     fenetre.columnconfigure(0, weight=1)
 
-    button_sceau = Button(text="Sceau", command=partial(sceau_button, fenetre))
+    button_seau = Button(text="Seau", command=partial(seau_button, fenetre))
     button_mouton = Button(text="Saut Mouton", command=partial(mouton_button, fenetre))
     button_exit = Button(text="Exit", command=exit_button)
 
-    button_sceau.grid(row=0,column=0)
+    button_seau.grid(row=0,column=0)
     button_mouton.grid(row=1,column=0)
     button_exit.grid(row=2,column=0)
 
@@ -39,9 +40,10 @@ def mouton_button(fenetre):
     return
 
 
-def sceau_button(fenetre):
+def seau_button(fenetre):
     fenetre.destroy()
-    sceau = Sceau.SceauWindow(5, [1, 2, 3, 4, 5], 4, [1, 1, 1, 1, 0])
+    Seau.parametreSeau()
+    #Seau.SeauWindow(5, [1, 2, 3, 4, 5], 4, [1, 1, 1, 1, 0])
     return
 
 
