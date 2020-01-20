@@ -41,7 +41,7 @@ def mouton_button(fenetre):
 
 def sceau_button(fenetre):
     fenetre.destroy()
-    Sceau.SceauWindow()
+    sceau = Sceau.SceauWindow(5, [1, 2, 3, 4, 5], 4, [1, 1, 1, 1, 0])
     return
 
 
