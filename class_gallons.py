@@ -118,21 +118,21 @@ class Modelisation_Gallon:
             print("PAS DE SOLUTION")
             return False
         else:
-            for i in range(len(result)):
+            #for i in range(len(result)):
                 #print(result["remplissage"])
                 #print(result["unsolved_step"])
 
-                index = 0
-                while result["unsolved_step"][index]==1:
-                    index+=1
+            index = 0
+            while result["unsolved_step"][index]==1:
+                index+=1
 
-                gallon_number=0
-                for g in self.gallons:
-                    g.remplissage = result["remplissage"][index][gallon_number]
-                    gallon_number+=1
+            gallon_number=0
+            for g in self.gallons:
+                g.remplissage = result["remplissage"][index][gallon_number]
+                gallon_number+=1
 
-                print("\nSOLUTION : ")
-                print(self.gallons)
-                return True
+            print("\nSOLUTION : ")
+            print(self.gallons)
+            return True
 
 
