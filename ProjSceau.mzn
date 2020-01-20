@@ -1,9 +1,9 @@
 include "globals.mzn";
 
-int: nbr_sceau = 3;
-array[1..nbr_sceau] of 1..100: taille_sceau = [10,7,2];
-int: remplissage_final = 4;
-array[1..nbr_sceau] of 0..1: remplissage_initial = [1,0,0];
+int: nbr_sceau;
+array[1..nbr_sceau] of 1..100: taille_sceau;
+int: remplissage_final;
+array[1..nbr_sceau] of 0..1: remplissage_initial;
 
 int: max_step = 6;
 enum action = {rien,verser,recevoir};
