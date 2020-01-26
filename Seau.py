@@ -2,6 +2,7 @@ from tkinter import *
 from functools import partial
 
 import Mainwindow
+import class_gallons
 
 
 class SeauWindow:
@@ -123,23 +124,64 @@ class parametreSeau:
         self.parametre.columnconfigure(0, weight=1)
         self.parametre.columnconfigure(1, weight=1)
         self.parametre.rowconfigure(0, weight=1)
-        self.parametre.rowconfigure(0, weight=1)
-        self.parametre.rowconfigure(0, weight=1)
-        self.parametre.rowconfigure(0, weight=1)
+        self.parametre.rowconfigure(1, weight=1)
+        self.parametre.rowconfigure(2, weight=1)
+        self.parametre.rowconfigure(3, weight=1)
+        self.parametre.rowconfigure(4, weight=1)
+
+        self.nbrSeau = 5
+        self.tailles = [1, 2, 3, 4, 5]
+        self.final = 4
+        self.initial = [1, 1, 1, 1, 0]
 
         button_retour = Button(text="Valider", command=self.check_button)
-        button_retour.pack()
+        button_retour.grid(row=4, column=1)
 
-        self.nbrS = 0
-        self.tailles = []
-        self.obj = 0
-        self.initial = []
+        Label(text="Nombre de seau :").grid(row=0, column=0)
+        Label(text="Tailles des seau (exemple pour 5 seau : 1;2;3;4;5) :").grid(row=1, column=0)
+        Label(text="But a atteindre :").grid(row=2, column=0)
+        Label(text="Remplissage initial (0 pour vide et 1 pour plein) :").grid(row=3, column=0)
+
+        self.entry_nbrS = StringVar()
+        Entry(textvariable=self.entry_nbrS, width=40).grid(row=0, column=2)
+        self.entry_nbrS.set("5")
+
+        self.entry_tailles = StringVar()
+        Entry(textvariable=self.entry_tailles, width=40).grid(row=1, column=2)
+        self.entry_tailles.set("1;2;3;4;5")
+
+        self.entry_final = StringVar()
+        Entry(textvariable=self.entry_final, width=40).grid(row=2, column=2)
+        self.entry_final.set("4")
+
+        self.entry_initial = StringVar()
+        Entry(textvariable=self.entry_initial, width=40).grid(row=3, column=2)
+        self.entry_initial.set("1;1;1;1;0")
 
         return
 
     def check_button(self):
         self.parametre.destroy()
-        SeauWindow(5, [1, 2, 3, 4, 5], 4, [1, 1, 1, 1, 0])
+
+        self.nbrSeau = int(self.entry_nbrS.get())
+
+        tmp = self.entry_tailles.get().split(";")
+        self.tailles = []
+        for elt in tmp:
+            self.tailles.append(int(elt))
+
+        self.final = int(self.entry_final.get())
+
+        tmp = self.entry_initial.get().split(";")
+        self.initial = []
+        for elt in tmp:
+            self.initial.append(int(elt))
+
+        if self.check() :
+            SeauWindow(self.nbrSeau, self.tailles, self.final, self.initial)
+        else :
+            # pop-up mauvais argument
+            parametreSeau()
         return
 
     def center(self, toplevel):
@@ -155,3 +197,15 @@ class parametreSeau:
 
         toplevel.geometry("+%d+%d" % (x, y))
         return
+
+    def check(self):
+        list_gallon = []
+        for i in range(1, self.nbrSeau+1):
+            list_gallon.append(
+                class_gallons.Gallon(numero=i,
+                                     taille=self.tailles[i],
+                                     emplissage_inital=self.tailles[i]*self.initial[i])
+            )
+
+        model = class_gallons.Modelisation_Gallon(quantite_objectif=self.final, liste_gallons=list_gallon)
+        return model.solve()
