@@ -200,7 +200,7 @@ class parametreSeau:
 
     def check(self):
         list_gallon = []
-        for i in range(0, self.nbrSeau):
+        for i in range(1, self.nbrSeau+1):
             list_gallon.append(
                 class_gallons.Gallon(numero=i,
                                      taille=self.tailles[i-1],
