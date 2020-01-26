@@ -18,6 +18,7 @@ class SeauWindow:
         self.update_list=[]
         self.pop =""
         self.size_w = str(240*nbrSeau) + 'x350'
+
         for i in range(0, nbrSeau):
             self._contenu.append(initial[i] * tailles[i])
         self.launch()
@@ -143,19 +144,19 @@ class parametreSeau:
         Label(text="Remplissage initial (0 pour vide et 1 pour plein) :").grid(row=3, column=0)
 
         self.entry_nbrS = StringVar()
-        Entry(textvariable=self.entry_nbrS, width=40).grid(row=0, column=2)
+        Entry(textvariable=self.entry_nbrS, width=40).grid(row=0, column=1)
         self.entry_nbrS.set("5")
 
         self.entry_tailles = StringVar()
-        Entry(textvariable=self.entry_tailles, width=40).grid(row=1, column=2)
+        Entry(textvariable=self.entry_tailles, width=40).grid(row=1, column=1)
         self.entry_tailles.set("1;2;3;4;5")
 
         self.entry_final = StringVar()
-        Entry(textvariable=self.entry_final, width=40).grid(row=2, column=2)
+        Entry(textvariable=self.entry_final, width=40).grid(row=2, column=1)
         self.entry_final.set("4")
 
         self.entry_initial = StringVar()
-        Entry(textvariable=self.entry_initial, width=40).grid(row=3, column=2)
+        Entry(textvariable=self.entry_initial, width=40).grid(row=3, column=1)
         self.entry_initial.set("1;1;1;1;0")
 
         return

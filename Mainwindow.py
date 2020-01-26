@@ -36,14 +36,13 @@ def exit_button():
 
 def mouton_button(fenetre):
     fenetre.destroy()
-    Mouton.MoutonWindow()
+    Mouton.parametreMouton()
     return
 
 
 def seau_button(fenetre):
     fenetre.destroy()
     Seau.parametreSeau()
-    #Seau.SeauWindow(5, [1, 2, 3, 4, 5], 4, [1, 1, 1, 1, 0])
     return
 
 
