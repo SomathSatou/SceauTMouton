@@ -134,7 +134,7 @@ class parametreSeau:
         self.final = 4
         self.initial = [1, 1, 1, 1, 0]
 
-        button_retour = Button(text="Valider", command=self.check_button)
+        button_retour = Button(text="Valider", command=self.check_button, width=10)
         button_retour.grid(row=4, column=1)
 
         Label(text="Nombre de seau :").grid(row=0, column=0)
@@ -203,8 +203,8 @@ class parametreSeau:
         for i in range(1, self.nbrSeau+1):
             list_gallon.append(
                 class_gallons.Gallon(numero=i,
-                                     taille=self.tailles[i],
-                                     emplissage_inital=self.tailles[i]*self.initial[i])
+                                     taille=self.tailles[i-1],
+                                     remplissage_inital=self.tailles[i-1]*self.initial[i-1])
             )
 
         model = class_gallons.Modelisation_Gallon(quantite_objectif=self.final, liste_gallons=list_gallon)
