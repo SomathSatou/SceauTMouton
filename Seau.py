@@ -186,6 +186,7 @@ class parametreSeau:
             pop.geometry('700x350')
             Label(text="Pas de solution").pack()
             Button(text="exit", command=pop.destroy)
+            self.center(pop)
             # pop-up mauvais argument
             parametreSeau()
         return
