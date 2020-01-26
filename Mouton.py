@@ -7,11 +7,16 @@ import Mainwindow
 class MoutonWindow:
     def __init__(self, nbrMouton):
         self.nbrMouton = nbrMouton
-        self.size_w = str((240*nbrMouton)*2+240) + 'x350'
+        self.size_w = str((270*nbrMouton)*2+270) + 'x350'
         self.Mouton_w = ""
         self.moutons = []
-        self.launch()
 
+        self.blanc = ""
+        self.noir = ""
+        self.vide = ""
+        self.button_list = []
+
+        self.launch()
         return
 
     def launch(self):
@@ -20,28 +25,39 @@ class MoutonWindow:
         self.Mouton_w.geometry(self.size_w)
         self.center()
 
-        blanc = PhotoImage(file='img/mouton/white.png')
-        noir = PhotoImage(file='img/mouton/black.png')
+        self.blanc = PhotoImage(file='img/mouton/white.png')
+        self.noir = PhotoImage(file='img/mouton/black.png')
+        self.vide = PhotoImage(file='img/mouton/vide.png')
 
         for i in range(0, self.nbrMouton):
             self.Mouton_w.columnconfigure(i, weight=1)
-            Button(image=blanc, command=partial(self.moove, i)).grid(row=0, column=i)
+            tmp = Button(image=self.blanc, command=partial(self.moove, i))
             self.moutons.append(-1)
+            self.button_list.append(tmp)
+            self.button_list[i].grid(row=0, column=i)
 
         self.Mouton_w.columnconfigure(self.nbrMouton+1, weight=1)
-        Button(width=24, height=22, command=partial(self.moove, i)).grid(row=0, column=self.nbrMouton+1)
+        tmp = Button(image=self.vide, command=partial(self.moove, i))
         self.moutons.append(0)
+        self.button_list.append(tmp)
+        self.button_list[self.nbrMouton].grid(row=0, column=self.nbrMouton+1)
 
-        for i in range(self.nbrMouton+2, self.nbrMouton+2+self.nbrMouton):
+        for i in range(self.nbrMouton+1, self.nbrMouton+1+self.nbrMouton):
             self.Mouton_w.columnconfigure(i, weight=1)
-            Button(image=noir, command=partial(self.moove, i)).grid(row=0, column=i)
+            tmp = Button(image=self.noir, command=partial(self.moove, i))
             self.moutons.append(1)
+            self.button_list.append(tmp)
+            self.button_list[i].grid(row=0, column=i+1)
 
         self.Mouton_w.rowconfigure(0, weight=1)
         self.Mouton_w.rowconfigure(1, weight=1)
 
         button_retour = Button(text="Retour", command=self.retour_button)
-        button_retour.pack(side=LEFT)
+        button_retour.grid(row=1, column=self.nbrMouton+2+self.nbrMouton-1)
+
+        button_init = Button(text="Reinitialiser", command=self.init_button)
+        button_init.grid(row=1, column=self.nbrMouton+2+self.nbrMouton-2)
+
         self.Mouton_w.mainloop()
         return
 
@@ -50,8 +66,45 @@ class MoutonWindow:
         Mainwindow.mainwindow()
         return
 
-    def moove(self, indice):
+    def init_button(self):
+        self.moutons = []
+        for i in range(0, self.nbrMouton):
+            self.moutons.append(-1)
+        self.moutons.append(0)
+        for i in range(self.nbrMouton+1, self.nbrMouton+1+self.nbrMouton):
+            self.moutons.append(1)
+        print(self.moutons)
+        self.draw()
+        return
 
+    def moove(self, i):
+        if self.moutons[i] == 1:
+            #procedure pour déplacer un mouton noir
+            if (i-1 >= 0) & (self.moutons[i-1] == 0):
+                self.moutons[i-1] = 1
+                self.moutons[i] = 0
+            elif (i-2 >= 0) & (self.moutons[i-2] == 0):
+                self.moutons[i-2] = 1
+                self.moutons[i] = 0
+        elif self.moutons[i] == -1:
+            #procedure pour mouton blanc
+            if (i+1 <= len(self.moutons)) & (self.moutons[i+1] == 0):
+                self.moutons[i+1] = -1
+                self.moutons[i] = 0
+            elif (i+2 <= len(self.moutons)) & (self.moutons[i+2] == 0):
+                self.moutons[i+2] = -1
+                self.moutons[i] = 0
+        self.draw()
+        return
+
+    def draw(self):
+        for i in range(len(self.moutons)):
+            if self.moutons[i] == -1:
+                self.button_list[i].configure(image=self.blanc, command=partial(self.moove, i))
+            elif  self.moutons[i] == 1:
+                self.button_list[i].configure(image=self.noir, command=partial(self.moove, i))
+            elif self.moutons[i] == 0:
+                self.button_list[i].configure(image=self.vide, command=partial(self.moove, i))
         return
 
     def center(self):

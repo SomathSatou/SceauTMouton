@@ -149,7 +149,7 @@ class parametreSeau:
 
         self.entry_tailles = StringVar()
         Entry(textvariable=self.entry_tailles, width=40).grid(row=1, column=1)
-        self.entry_tailles.set("1;2;3;4;5")
+        self.entry_tailles.set("1;2;3;5;8")
 
         self.entry_final = StringVar()
         Entry(textvariable=self.entry_final, width=40).grid(row=2, column=1)
@@ -181,6 +181,11 @@ class parametreSeau:
         if self.check() :
             SeauWindow(self.nbrSeau, self.tailles, self.final, self.initial)
         else :
+            pop = Tk()
+            pop.title('Erreur')
+            pop.geometry('700x350')
+            Label(text="Pas de solution").pack()
+            Button(text="exit", command=pop.destroy)
             # pop-up mauvais argument
             parametreSeau()
         return
