@@ -205,7 +205,7 @@ class parametreSeau:
                 class_gallons.Gallon(numero=i,
                                      taille=self.tailles[i-1],
                                      remplissage_inital=self.tailles[i-1]*self.initial[i-1])
-
+            )
 
         model = class_gallons.Modelisation_Gallon(quantite_objectif=self.final, liste_gallons=list_gallon)
         return model.solve()
