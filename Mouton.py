@@ -2,7 +2,7 @@ from tkinter import *
 from functools import partial
 
 import Mainwindow
-
+import class_moutons as m
 
 class MoutonWindow:
     def __init__(self, nbrMouton):
@@ -16,6 +16,8 @@ class MoutonWindow:
         self.vide = ""
         self.button_list = []
 
+        self.coup = 0
+
         self.launch()
         return
 
@@ -23,7 +25,7 @@ class MoutonWindow:
         self.Mouton_w = Tk()
         self.Mouton_w.title('Jeu des Moutons')
         self.Mouton_w.geometry(self.size_w)
-        self.center()
+        self.center(self.Mouton_w)
 
         self.blanc = PhotoImage(file='img/mouton/white.png')
         self.noir = PhotoImage(file='img/mouton/black.png')
@@ -81,21 +83,56 @@ class MoutonWindow:
         if self.moutons[i] == 1:
             #procedure pour déplacer un mouton noir
             if (i-1 >= 0) & (self.moutons[i-1] == 0):
+                self.coup = self.coup+1
                 self.moutons[i-1] = 1
                 self.moutons[i] = 0
             elif (i-2 >= 0) & (self.moutons[i-2] == 0):
+                self.coup = self.coup+1
                 self.moutons[i-2] = 1
                 self.moutons[i] = 0
         elif self.moutons[i] == -1:
             #procedure pour mouton blanc
             if (i+1 <= len(self.moutons)) & (self.moutons[i+1] == 0):
+                self.coup = self.coup+1
                 self.moutons[i+1] = -1
                 self.moutons[i] = 0
             elif (i+2 <= len(self.moutons)) & (self.moutons[i+2] == 0):
+                self.coup = self.coup+1
                 self.moutons[i+2] = -1
                 self.moutons[i] = 0
         self.draw()
+        self.test()
         return
+
+    def test(self):
+        print(self.win())
+        if self.win():
+            # lancer un self.popup
+            self.pop = Tk()
+            self.pop.title('Jeu des Moutons')
+            self.pop.geometry('350x350')
+            self.center(self.pop)
+
+            self.pop.columnconfigure(0, weight=1)
+            self.pop.rowconfigure(0, weight=1)
+            self.pop.rowconfigure(1, weight=2)
+
+            Label(self.pop, text="Vous avez gagné en " + str(self.coup) + " coups, félicitation").grid(row=0, column=0)
+            Button(self.pop, text="Exit", command=self.pop.destroy).grid(row=1, column=0)
+        return
+
+    def win(self):
+        opass = False
+        for elt in self.moutons:
+            if not (opass):
+                if elt == 0:
+                    opass = True;
+                if elt == -1:
+                    return False
+            else:
+                if elt == 1:
+                    return False
+        return True
 
     def draw(self):
         for i in range(len(self.moutons)):
@@ -107,18 +144,18 @@ class MoutonWindow:
                 self.button_list[i].configure(image=self.vide, command=partial(self.moove, i))
         return
 
-    def center(self):
-        self.Mouton_w.update_idletasks()
+    def center(self, toplevel):
+        toplevel.update_idletasks()
 
         # Tkinter way to find the screen resolution
-        screen_width = self.Mouton_w.winfo_screenwidth()
-        screen_height = self.Mouton_w.winfo_screenheight()
+        screen_width = toplevel.winfo_screenwidth()
+        screen_height = toplevel.winfo_screenheight()
 
-        size = tuple(int(_) for _ in self.Mouton_w.geometry().split('+')[0].split('x'))
+        size = tuple(int(_) for _ in toplevel.geometry().split('+')[0].split('x'))
         x = screen_width / 2 - size[0] / 2
         y = screen_height / 2 - size[1] / 2
 
-        self.Mouton_w.geometry("+%d+%d" % (x, y))
+        toplevel.geometry("+%d+%d" % (x, y))
         return
 
 
@@ -174,5 +211,9 @@ class parametreMouton:
         return
 
     def check(self):
-        #return model.solve()
-        return True
+        if self.nbrMouton<3:
+            model = m.Modelisation_Mouton(nombre_moutons=self.nbrMouton)
+            return model.solve()
+        else:
+            return True
+        #return True

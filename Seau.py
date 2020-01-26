@@ -18,6 +18,7 @@ class SeauWindow:
         self.update_list=[]
         self.pop =""
         self.size_w = str(240*nbrSeau) + 'x350'
+        self.coup = 0
 
         for i in range(0, nbrSeau):
             self._contenu.append(initial[i] * tailles[i])
@@ -83,6 +84,7 @@ class SeauWindow:
             self._first = False
         else:
             if indice != self._select:
+                self.coup = self.coup+1
                 reste = self._tailles[indice] - (self._contenu[indice] + self._contenu[self._select])
                 if reste >= 0:
                     self._contenu[indice] = self._contenu[indice] + self._contenu[self._select]
@@ -109,7 +111,7 @@ class SeauWindow:
                 self.pop.rowconfigure(0, weight=1)
                 self.pop.rowconfigure(1, weight=2)
 
-                Label(self.pop, text="Vous avez gagné félicitation").grid(row=0, column=0)
+                Label(self.pop, text="Vous avez gagné en " +str(self.coup)+" félicitation").grid(row=0, column=0)
                 Button(self.pop, text="Exit", command=self.retour_pop).grid(row=1, column=0)
         return
 
