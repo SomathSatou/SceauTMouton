@@ -17,7 +17,7 @@ class SeauWindow:
         self.nbrSeau = nbrSeau
         self.update_list=[]
         self.pop =""
-
+        self.size_w = str(240*nbrSeau) + 'x350'
         for i in range(0, nbrSeau):
             self._contenu.append(initial[i] * tailles[i])
         self.launch()
@@ -25,7 +25,7 @@ class SeauWindow:
     def launch(self):
         self.Seau_w = Tk()
         self.Seau_w.title('Jeu des Seaux')
-        self.Seau_w.geometry('1200x350')
+        self.Seau_w.geometry(self.size_w)
         self.center(self.Seau_w)
 
         photo = PhotoImage(file='img/seau.gif')
@@ -138,7 +138,7 @@ class parametreSeau:
         button_retour.grid(row=4, column=1)
 
         Label(text="Nombre de seau :").grid(row=0, column=0)
-        Label(text="Tailles des seau (exemple pour 5 seau : 1;2;3;4;5) :").grid(row=1, column=0)
+        Label(text="Tailles des seau (exemple pour 5 seau : 1;2;3;5;8) :").grid(row=1, column=0)
         Label(text="But a atteindre :").grid(row=2, column=0)
         Label(text="Remplissage initial (0 pour vide et 1 pour plein) :").grid(row=3, column=0)
 
@@ -209,3 +209,4 @@ class parametreSeau:
 
         model = class_gallons.Modelisation_Gallon(quantite_objectif=self.final, liste_gallons=list_gallon)
         return model.solve()
+        #return True
