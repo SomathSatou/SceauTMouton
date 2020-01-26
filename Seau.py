@@ -204,7 +204,7 @@ class parametreSeau:
             list_gallon.append(
                 class_gallons.Gallon(numero=i,
                                      taille=self.tailles[i],
-                                     emplissage_inital=self.tailles[i]*self.initial[i])
+                                     remplissage_inital=self.tailles[i]*self.initial[i])
             )
 
         model = class_gallons.Modelisation_Gallon(quantite_objectif=self.final, liste_gallons=list_gallon)
