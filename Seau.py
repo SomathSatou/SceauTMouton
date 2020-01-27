@@ -186,8 +186,12 @@ class parametreSeau:
             pop = Tk()
             pop.title('Erreur')
             pop.geometry('700x350')
-            Label(text="Pas de solution").pack()
-            Button(text="exit", command=pop.destroy)
+
+            pop.columnconfigure(0, weight=1)
+            pop.rowconfigure(0, weight=1)
+            pop.rowconfigure(1, weight=1)
+            Label(text="Pas de solution").grid(row=0, column=0)
+            Button(text="exit", command=pop.destroy).grid(row=1, column=0)
             self.center(pop)
             # pop-up mauvais argument
             parametreSeau()
