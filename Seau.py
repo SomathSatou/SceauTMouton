@@ -214,7 +214,6 @@ class parametreSeau:
 
 
     def check_button(self):
-        self.parametre.destroy()
 
         self.nbrSeau = int(self.entry_nbrS.get())
 
@@ -231,6 +230,8 @@ class parametreSeau:
             self.initial.append(int(elt))
 
         if self.check() :
+            self.parametre.destroy()
+
             SeauWindow(self.nbrSeau, self.tailles, self.final, self.initial)
         else :
             self.pop = Tk()
@@ -246,7 +247,6 @@ class parametreSeau:
             Button(self.pop, text="exit", command=self.pop.destroy).grid(row=1, column=0)
 
             # pop-up mauvais argument
-            self.launch()
         return
 
     def center(self, toplevel):
