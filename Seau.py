@@ -124,6 +124,8 @@ class parametreSeau:
         self.parametre.geometry('700x350')
         self.center(self.parametre)
 
+        self.pop =""
+
         self.parametre.columnconfigure(0, weight=1)
         self.parametre.columnconfigure(1, weight=1)
         self.parametre.rowconfigure(0, weight=1)
@@ -183,12 +185,17 @@ class parametreSeau:
         if self.check() :
             SeauWindow(self.nbrSeau, self.tailles, self.final, self.initial)
         else :
-            pop = Tk()
-            pop.title('Erreur')
-            pop.geometry('700x350')
-            Label(text="Pas de solution").pack()
-            Button(text="exit", command=pop.destroy)
-            self.center(pop)
+            self.pop = Tk()
+            self.pop.title('Erreur')
+            self.pop.geometry('350x350')
+
+            self.pop.columnconfigure(0, weight=1)
+            self.pop.rowconfigure(0, weight=1)
+            self.pop.rowconfigure(1, weight=2)
+
+            Label(self.pop, text="Pas de solution").grid(row=0, column=0)
+            Button(self.pop, text="exit", command=self.pop.destroy).grid(row=1, column=0)
+            self.center(self.pop)
             # pop-up mauvais argument
             parametreSeau()
         return
