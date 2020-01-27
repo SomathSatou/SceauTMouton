@@ -165,6 +165,54 @@ class parametreSeau:
 
         return
 
+    def launch(self):
+        self.parametre = Tk()
+        self.parametre.title('Jeu des Seaux')
+        self.parametre.geometry('700x350')
+        self.center(self.parametre)
+
+        self.pop =""
+
+        self.parametre.columnconfigure(0, weight=1)
+        self.parametre.columnconfigure(1, weight=1)
+        self.parametre.rowconfigure(0, weight=1)
+        self.parametre.rowconfigure(1, weight=1)
+        self.parametre.rowconfigure(2, weight=1)
+        self.parametre.rowconfigure(3, weight=1)
+        self.parametre.rowconfigure(4, weight=1)
+
+        self.nbrSeau = 5
+        self.tailles = [1, 2, 3, 4, 5]
+        self.final = 4
+        self.initial = [1, 1, 1, 1, 0]
+
+        button_retour = Button(text="Valider", command=self.check_button, width=10)
+        button_retour.grid(row=4, column=1)
+
+        Label(text="Nombre de seau :").grid(row=0, column=0)
+        Label(text="Tailles des seau (exemple pour 5 seau : 1;2;3;5;8) :").grid(row=1, column=0)
+        Label(text="But a atteindre :").grid(row=2, column=0)
+        Label(text="Remplissage initial (0 pour vide et 1 pour plein) :").grid(row=3, column=0)
+
+        self.entry_nbrS = StringVar()
+        Entry(textvariable=self.entry_nbrS, width=40).grid(row=0, column=1)
+        self.entry_nbrS.set("5")
+
+        self.entry_tailles = StringVar()
+        Entry(textvariable=self.entry_tailles, width=40).grid(row=1, column=1)
+        self.entry_tailles.set("1;2;3;5;8")
+
+        self.entry_final = StringVar()
+        Entry(textvariable=self.entry_final, width=40).grid(row=2, column=1)
+        self.entry_final.set("4")
+
+        self.entry_initial = StringVar()
+        Entry(textvariable=self.entry_initial, width=40).grid(row=3, column=1)
+        self.entry_initial.set("1;1;1;1;0")
+
+        return
+
+
     def check_button(self):
         self.parametre.destroy()
 
@@ -188,6 +236,7 @@ class parametreSeau:
             self.pop = Tk()
             self.pop.title('Erreur')
             self.pop.geometry('350x350')
+            self.center(self.pop)
 
             self.pop.columnconfigure(0, weight=1)
             self.pop.rowconfigure(0, weight=1)
@@ -195,10 +244,9 @@ class parametreSeau:
 
             Label(self.pop, text="Pas de solution").grid(row=0, column=0)
             Button(self.pop, text="exit", command=self.pop.destroy).grid(row=1, column=0)
-            self.center(self.pop)
 
             # pop-up mauvais argument
-            parametreSeau()
+            self.launch()
         return
 
     def center(self, toplevel):
