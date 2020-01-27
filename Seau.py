@@ -196,6 +196,7 @@ class parametreSeau:
             Label(self.pop, text="Pas de solution").grid(row=0, column=0)
             Button(self.pop, text="exit", command=self.pop.destroy).grid(row=1, column=0)
             self.center(self.pop)
+
             # pop-up mauvais argument
             parametreSeau()
         return

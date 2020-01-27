@@ -77,7 +77,6 @@ class Modelisation_Mouton:
             #good_sub_list = result["etat"][index*(self.nb_moutons*2+1):(index+1)*(self.nb_moutons*2+1)]
 
             print(final_list)
-            #self.moutons =
 
 
             print("\nSOLUTION : ")
